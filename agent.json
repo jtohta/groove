@@ -1,0 +1,18 @@
+{
+  "model": {
+    "plan":  "accounts/fireworks/models/kimi-k2p6",
+    "agent": "accounts/fireworks/models/kimi-k2p6",
+    "debug": "accounts/fireworks/models/kimi-k2p6"
+  },
+  "modes": {
+    "agent": {
+      "test_runner": "jest",
+      "test_dir":    "tests/",
+      "src_dir":     "src/",
+      "one_test_def": "it() block"
+    }
+  },
+  "git": {
+    "auto_commit": false
+  }
+}

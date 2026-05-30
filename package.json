@@ -1,0 +1,24 @@
+{
+  "name": "groove",
+  "version": "0.1.0",
+  "description": "FSM-based agentic coding runtime",
+  "bin": { "groove": "./dist/cli.js" },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx src/cli.ts",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "latest",
+    "commander": "latest",
+    "zod": "latest"
+  },
+  "devDependencies": {
+    "typescript": "latest",
+    "@types/node": "latest",
+    "tsx": "latest",
+    "jest": "latest",
+    "@types/jest": "latest",
+    "ts-jest": "latest"
+  }
+}

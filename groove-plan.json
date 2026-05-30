@@ -1,0 +1,11 @@
+{
+  "feature": "example feature",
+  "phases": [
+    {
+      "id": 1,
+      "test_sentence": "it should do X when Y",
+      "status": "pending",
+      "handoff": null
+    }
+  ]
+}
