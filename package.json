@@ -2,7 +2,9 @@
   "name": "groove",
   "version": "0.1.0",
   "description": "FSM-based agentic coding runtime",
-  "bin": { "groove": "./dist/cli.js" },
+  "bin": {
+    "groove": "./dist/cli.js"
+  },
   "scripts": {
     "build": "tsc",
     "dev": "tsx src/cli.ts",
@@ -14,11 +16,13 @@
     "zod": "latest"
   },
   "devDependencies": {
-    "typescript": "latest",
-    "@types/node": "latest",
-    "tsx": "latest",
-    "jest": "latest",
     "@types/jest": "latest",
-    "ts-jest": "latest"
+    "@types/nock": "^10.0.3",
+    "@types/node": "latest",
+    "jest": "latest",
+    "nock": "^14.0.15",
+    "ts-jest": "latest",
+    "tsx": "latest",
+    "typescript": "latest"
   }
 }

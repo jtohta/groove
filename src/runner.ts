@@ -46,56 +46,58 @@ export async function runFSM(
 
     session.logTokens({ input_tokens: response.usage.input_tokens, output_tokens: response.usage.output_tokens })
 
-    // Handle response
-    if (response.stop_reason === 'end_turn') {
-      // Model is done — for TASK mode this means the task is complete
-      if (mode === 'task') break
+    // Log any text from the model
+    for (const block of response.content) {
+      if (block.type === 'text' && block.text) {
+        console.log(`  ${block.text.slice(0, 100)}${block.text.length > 100 ? '...' : ''}`)
+      }
+    }
+
+    // Model is done — for TASK mode this means the task is complete
+    if (response.stop_reason === 'end_turn' && mode === 'task') {
+      break
     }
 
     // Execute tool calls
     for (const block of response.content) {
-      if (block.type === 'tool_use') {
-        const tool = tools.find(t => t.name === block.name)
-        if (!tool) {
-          throw new Error(`Tool ${block.name} not available in state ${state.name}. Available: ${tools.map(t => t.name).join(', ')}`)
-        }
+      if (block.type !== 'tool_use') continue
 
-        console.log(`  → ${block.name}`)
-        let result: unknown
-        try {
-          result = await tool.execute(block.input)
-        } catch (err) {
-          result = { error: String(err) }
-        }
-
-        session.addMessage('assistant', response.content)
-        session.addMessage('user', [{
-          type: 'tool_result',
-          tool_use_id: block.id,
-          content: JSON.stringify(result),
-        }])
-
-        // Check gate after tool call
-        const gate = await state.checkGate()
-        if (gate.pass) {
-          console.log(`  ✓ Gate passed: ${gate.reason}`)
-          writeHandoff({
-            phase: phaseNumber,
-            state: state.name,
-            context: session.context(),
-            timestamp: new Date().toISOString(),
-          })
-          fsm.transition()
-          if (!fsm.isComplete()) {
-            session.reset()
-            console.log(`[${fsm.currentState.name}] Transitioning...`)
-          }
-          break
-        }
+      const tool = tools.find(t => t.name === block.name)
+      if (!tool) {
+        throw new Error(`Tool ${block.name} not available in state ${state.name}. Available: ${tools.map(t => t.name).join(', ')}`)
       }
 
-      if (block.type === 'text' && block.text) {
-        console.log(`  ${block.text.slice(0, 100)}${block.text.length > 100 ? '...' : ''}`)
+      console.log(`  → ${block.name}`)
+      let result: unknown
+      try {
+        result = await tool.execute(block.input)
+      } catch (err) {
+        result = { error: String(err) }
+      }
+
+      session.addMessage('assistant', response.content)
+      session.addMessage('user', [{
+        type: 'tool_result',
+        tool_use_id: block.id,
+        content: JSON.stringify(result),
+      }])
+
+      // Check gate after tool call
+      const gate = await state.checkGate()
+      if (gate.pass) {
+        console.log(`  ✓ Gate passed: ${gate.reason}`)
+        writeHandoff({
+          phase: phaseNumber,
+          state: state.name,
+          context: session.context(),
+          timestamp: new Date().toISOString(),
+        })
+        fsm.transition()
+        if (!fsm.isComplete()) {
+          session.reset()
+          console.log(`[${fsm.currentState.name}] Transitioning...`)
+        }
+        break
       }
     }
   }
