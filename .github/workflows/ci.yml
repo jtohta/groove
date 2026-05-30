@@ -29,4 +29,6 @@ jobs:
         run: npm run build
 
       - name: Test
+        env:
+          ANTHROPIC_BASE_URL: https://api.fireworks.ai/inference
         run: npm run test
