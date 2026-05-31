@@ -1,8 +1,8 @@
-import { FSM } from '../../fsm'
-import { UnderstandState } from './states/understand'
-import { RedState } from './states/red'
-import { GreenState } from './states/green'
-import { RefactorState } from './states/refactor'
+import { FSM } from "../../fsm";
+import { UnderstandState } from "./states/understand";
+import { RedState } from "./states/red";
+import { GreenState } from "./states/green";
+import { RefactorState } from "./states/refactor";
 
 export function createAgentFSM(): FSM {
   return new FSM([
@@ -10,5 +10,5 @@ export function createAgentFSM(): FSM {
     new RedState(),
     new GreenState(),
     new RefactorState(),
-  ])
+  ]);
 }

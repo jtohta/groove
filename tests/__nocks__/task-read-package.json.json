@@ -1,0 +1,420 @@
+[
+    {
+        "scope": "https://api.fireworks.ai:443",
+        "method": "POST",
+        "path": "/inference/v1/messages",
+        "body": {
+            "model": "accounts/fireworks/models/kimi-k2p6",
+            "max_tokens": 8096,
+            "system": "You are a coding assistant. Complete the requested task using the available tools.",
+            "tools": [
+                {
+                    "name": "str_replace_based_edit_tool",
+                    "description": "View, create, str_replace, or insert text in files",
+                    "input_schema": {
+                        "type": "object",
+                        "properties": {
+                            "command": {
+                                "type": "string",
+                                "enum": [
+                                    "view",
+                                    "create",
+                                    "str_replace",
+                                    "insert"
+                                ]
+                            },
+                            "path": {
+                                "type": "string"
+                            },
+                            "view_range": {
+                                "type": "array",
+                                "items": {
+                                    "type": "integer"
+                                }
+                            },
+                            "file_text": {
+                                "type": "string"
+                            },
+                            "old_str": {
+                                "type": "string"
+                            },
+                            "new_str": {
+                                "type": "string"
+                            },
+                            "insert_line": {
+                                "type": "integer"
+                            },
+                            "insert_text": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "command",
+                            "path"
+                        ]
+                    }
+                },
+                {
+                    "name": "bash",
+                    "description": "Run a bash command",
+                    "input_schema": {
+                        "type": "object",
+                        "properties": {
+                            "command": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "command"
+                        ]
+                    }
+                },
+                {
+                    "name": "ask_clarification",
+                    "description": "Ask the user a clarifying question",
+                    "input_schema": {
+                        "type": "object",
+                        "properties": {
+                            "question": {
+                                "type": "string"
+                            },
+                            "recommendation": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "question"
+                        ]
+                    }
+                },
+                {
+                    "name": "lock_requirements",
+                    "description": "Signal that requirements are understood and locked. Transitions to RED state.",
+                    "input_schema": {
+                        "type": "object",
+                        "properties": {
+                            "summary": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "summary"
+                        ]
+                    }
+                },
+                {
+                    "name": "complete_feature",
+                    "description": "Signal that the feature phase is complete.",
+                    "input_schema": {
+                        "type": "object",
+                        "properties": {
+                            "justification": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "justification"
+                        ]
+                    }
+                },
+                {
+                    "name": "spawn_agent",
+                    "description": "Spawn a sub-agent for parallel read-only work",
+                    "input_schema": {
+                        "type": "object",
+                        "properties": {
+                            "task": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "task"
+                        ]
+                    }
+                }
+            ],
+            "messages": [
+                {
+                    "role": "user",
+                    "content": "read package.json and return the name field"
+                }
+            ]
+        },
+        "status": 200,
+        "response": {
+            "content": [
+                {
+                    "type": "thinking",
+                    "thinking": "The user wants me to read the package.json file and return the name field. I should use the str_replace_based_edit_tool to view the file, or bash to cat it. Let me use bash to read it and extract the name field, or view the file.",
+                    "signature": ""
+                },
+                {
+                    "type": "tool_use",
+                    "id": "functions.bash:0",
+                    "name": "bash",
+                    "input": {
+                        "command": "cat package.json"
+                    }
+                }
+            ],
+            "id": "msg_17cdb79b1235fdcfa2855131",
+            "model": "accounts/fireworks/models/kimi-k2p6",
+            "role": "assistant",
+            "stop_details": null,
+            "stop_reason": "tool_use",
+            "stop_sequence": null,
+            "type": "message",
+            "usage": {
+                "input_tokens": 277,
+                "output_tokens": 74,
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 0,
+                "cache_creation": null,
+                "service_tier": null,
+                "inference_geo": null
+            }
+        },
+        "rawHeaders": {
+            "content-length": "743",
+            "content-type": "application/json",
+            "date": "Sun, 31 May 2026 20:25:04 GMT",
+            "fireworks-cached-prompt-tokens": "0",
+            "fireworks-prompt-tokens": "277",
+            "fireworks-sampling-options": "{\"max_tokens\": 8096, \"temperature\": 1.0, \"top_k\": 0, \"top_p\": 0.95, \"min_p\": 0.0, \"typical_p\": 1.0, \"frequency_penalty\": 0.0, \"presence_penalty\": 0.0, \"repetition_penalty\": 1.0, \"mirostat_target\": null, \"mirostat_lr\": 0.1, \"cycle_multiplier\": 0.0, \"cycle_base\": 0.0, \"cycle_allowed_length\": 0, \"cycle_sequence_breakers\": []}",
+            "fireworks-server-processing-time": "0.641",
+            "fireworks-server-time-to-first-token": "0.225",
+            "fireworks-speculation-prompt-matched-tokens": "0",
+            "server": "istio-envoy",
+            "vary": "Origin",
+            "via": "1.1 google",
+            "x-ratelimit-limit-tokens-prompt": "3600000",
+            "x-ratelimit-over-limit": "no",
+            "x-ratelimit-remaining-tokens-prompt": "3599723",
+            "x-request-id": "e2865ea5-33dd-4e11-9cca-09ec48a9edb7"
+        },
+        "responseIsBinary": false
+    },
+    {
+        "scope": "https://api.fireworks.ai:443",
+        "method": "POST",
+        "path": "/inference/v1/messages",
+        "body": {
+            "model": "accounts/fireworks/models/kimi-k2p6",
+            "max_tokens": 8096,
+            "system": "You are a coding assistant. Complete the requested task using the available tools.",
+            "tools": [
+                {
+                    "name": "str_replace_based_edit_tool",
+                    "description": "View, create, str_replace, or insert text in files",
+                    "input_schema": {
+                        "type": "object",
+                        "properties": {
+                            "command": {
+                                "type": "string",
+                                "enum": [
+                                    "view",
+                                    "create",
+                                    "str_replace",
+                                    "insert"
+                                ]
+                            },
+                            "path": {
+                                "type": "string"
+                            },
+                            "view_range": {
+                                "type": "array",
+                                "items": {
+                                    "type": "integer"
+                                }
+                            },
+                            "file_text": {
+                                "type": "string"
+                            },
+                            "old_str": {
+                                "type": "string"
+                            },
+                            "new_str": {
+                                "type": "string"
+                            },
+                            "insert_line": {
+                                "type": "integer"
+                            },
+                            "insert_text": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "command",
+                            "path"
+                        ]
+                    }
+                },
+                {
+                    "name": "bash",
+                    "description": "Run a bash command",
+                    "input_schema": {
+                        "type": "object",
+                        "properties": {
+                            "command": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "command"
+                        ]
+                    }
+                },
+                {
+                    "name": "ask_clarification",
+                    "description": "Ask the user a clarifying question",
+                    "input_schema": {
+                        "type": "object",
+                        "properties": {
+                            "question": {
+                                "type": "string"
+                            },
+                            "recommendation": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "question"
+                        ]
+                    }
+                },
+                {
+                    "name": "lock_requirements",
+                    "description": "Signal that requirements are understood and locked. Transitions to RED state.",
+                    "input_schema": {
+                        "type": "object",
+                        "properties": {
+                            "summary": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "summary"
+                        ]
+                    }
+                },
+                {
+                    "name": "complete_feature",
+                    "description": "Signal that the feature phase is complete.",
+                    "input_schema": {
+                        "type": "object",
+                        "properties": {
+                            "justification": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "justification"
+                        ]
+                    }
+                },
+                {
+                    "name": "spawn_agent",
+                    "description": "Spawn a sub-agent for parallel read-only work",
+                    "input_schema": {
+                        "type": "object",
+                        "properties": {
+                            "task": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "task"
+                        ]
+                    }
+                }
+            ],
+            "messages": [
+                {
+                    "role": "user",
+                    "content": "read package.json and return the name field"
+                },
+                {
+                    "role": "assistant",
+                    "content": [
+                        {
+                            "type": "thinking",
+                            "thinking": "The user wants me to read the package.json file and return the name field. I should use the str_replace_based_edit_tool to view the file, or bash to cat it. Let me use bash to read it and extract the name field, or view the file.",
+                            "signature": ""
+                        },
+                        {
+                            "type": "tool_use",
+                            "id": "functions.bash:0",
+                            "name": "bash",
+                            "input": {
+                                "command": "cat package.json"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "role": "user",
+                    "content": [
+                        {
+                            "type": "tool_result",
+                            "tool_use_id": "functions.bash:0",
+                            "content": "{\"output\":\"{\\n  \\\"name\\\": \\\"groove\\\",\\n  \\\"version\\\": \\\"0.1.0\\\",\\n  \\\"description\\\": \\\"FSM-based agentic coding runtime\\\",\\n  \\\"bin\\\": {\\n    \\\"groove\\\": \\\"./dist/cli.js\\\"\\n  },\\n  \\\"scripts\\\": {\\n    \\\"build\\\": \\\"tsc\\\",\\n    \\\"dev\\\": \\\"tsx src/cli.ts\\\",\\n    \\\"test\\\": \\\"jest\\\",\\n    \\\"lint\\\": \\\"eslint src tests\\\",\\n    \\\"format\\\": \\\"prettier --write src tests\\\",\\n    \\\"format:check\\\": \\\"prettier --check src tests\\\",\\n    \\\"prepare\\\": \\\"husky\\\"\\n  },\\n  \\\"lint-staged\\\": {\\n    \\\"*.{ts,tsx,js,json,md}\\\": [\\n      \\\"prettier --write\\\",\\n      \\\"eslint --fix\\\"\\n    ]\\n  },\\n  \\\"dependencies\\\": {\\n    \\\"@anthropic-ai/sdk\\\": \\\"latest\\\",\\n    \\\"commander\\\": \\\"latest\\\",\\n    \\\"zod\\\": \\\"latest\\\"\\n  },\\n  \\\"devDependencies\\\": {\\n    \\\"@eslint/js\\\": \\\"^10.0.1\\\",\\n    \\\"@types/jest\\\": \\\"latest\\\",\\n    \\\"@types/nock\\\": \\\"^10.0.3\\\",\\n    \\\"@types/node\\\": \\\"latest\\\",\\n    \\\"eslint\\\": \\\"^10.4.1\\\",\\n    \\\"eslint-config-prettier\\\": \\\"^10.1.8\\\",\\n    \\\"husky\\\": \\\"^9.1.7\\\",\\n    \\\"jest\\\": \\\"latest\\\",\\n    \\\"lint-staged\\\": \\\"^17.0.7\\\",\\n    \\\"nock\\\": \\\"^14.0.15\\\",\\n    \\\"prettier\\\": \\\"^3.8.3\\\",\\n    \\\"ts-jest\\\": \\\"latest\\\",\\n    \\\"tsx\\\": \\\"latest\\\",\\n    \\\"typescript\\\": \\\"latest\\\",\\n    \\\"typescript-eslint\\\": \\\"^8.60.0\\\"\\n  }\\n}\\n\",\"exitCode\":0}"
+                        }
+                    ]
+                }
+            ]
+        },
+        "status": 200,
+        "response": {
+            "content": [
+                {
+                    "type": "thinking",
+                    "thinking": "The name field in package.json is \"groove\". I'll return that to the user.",
+                    "signature": ""
+                },
+                {
+                    "type": "text",
+                    "text": "The `name` field in `package.json` is:\n\n**groove**"
+                }
+            ],
+            "id": "msg_9c43dfe665e953a91918c90c",
+            "model": "accounts/fireworks/models/kimi-k2p6",
+            "role": "assistant",
+            "stop_details": null,
+            "stop_reason": "end_turn",
+            "stop_sequence": null,
+            "type": "message",
+            "usage": {
+                "input_tokens": 530,
+                "output_tokens": 36,
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 276,
+                "cache_creation": null,
+                "service_tier": null,
+                "inference_geo": null
+            }
+        },
+        "rawHeaders": {
+            "content-length": "572",
+            "content-type": "application/json",
+            "date": "Sun, 31 May 2026 20:25:05 GMT",
+            "fireworks-cached-prompt-tokens": "276",
+            "fireworks-prompt-tokens": "806",
+            "fireworks-sampling-options": "{\"max_tokens\": 8096, \"temperature\": 1.0, \"top_k\": 0, \"top_p\": 0.95, \"min_p\": 0.0, \"typical_p\": 1.0, \"frequency_penalty\": 0.0, \"presence_penalty\": 0.0, \"repetition_penalty\": 1.0, \"mirostat_target\": null, \"mirostat_lr\": 0.1, \"cycle_multiplier\": 0.0, \"cycle_base\": 0.0, \"cycle_allowed_length\": 0, \"cycle_sequence_breakers\": []}",
+            "fireworks-server-processing-time": "0.433",
+            "fireworks-server-time-to-first-token": "0.208",
+            "fireworks-speculation-prompt-matched-tokens": "0",
+            "server": "istio-envoy",
+            "vary": "Origin",
+            "via": "1.1 google",
+            "x-ratelimit-limit-tokens-cache-adjusted-prompt": "1125000",
+            "x-ratelimit-limit-tokens-generated": "36000",
+            "x-ratelimit-limit-tokens-prompt": "3600000",
+            "x-ratelimit-over-limit": "no",
+            "x-ratelimit-remaining-tokens-cache-adjusted-prompt": "883357",
+            "x-ratelimit-remaining-tokens-generated": "33690",
+            "x-ratelimit-remaining-tokens-prompt": "3315384",
+            "x-request-id": "8cce28f6-0c7a-4f24-9521-b9c706113039"
+        },
+        "responseIsBinary": false
+    }
+]

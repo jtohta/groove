@@ -1,3 +1,3 @@
 export function createDebugFSM(): never {
-  throw new Error('DEBUG mode not yet implemented')
+  throw new Error("DEBUG mode not yet implemented");
 }
