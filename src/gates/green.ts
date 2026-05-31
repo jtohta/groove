@@ -1,5 +1,5 @@
-import type { GateResult } from '../types'
+import type { GateResult } from "../types";
 
 export async function checkGreenGate(): Promise<GateResult> {
-  throw new Error('not implemented: green gate')
+  throw new Error("not implemented: green gate");
 }

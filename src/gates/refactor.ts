@@ -1,5 +1,5 @@
-import type { GateResult } from '../types'
+import type { GateResult } from "../types";
 
 export async function checkRefactorGate(): Promise<GateResult> {
-  throw new Error('not implemented: refactor gate')
+  throw new Error("not implemented: refactor gate");
 }
